@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Link, Redirect, Router, Route, Switch } from 'react-router-dom'
 
-function App() {
+import { history } from './services'
+import { routes } from './constants'
+import { Form, About } from './routes'
+
+export function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+      <Router history={history}>
+        <div>
+          <ul>
+            <li>
+              <Link to={routes.form}>form</Link>
+            </li>
+            <li>
+              <Link to={`${routes.form}?tab=2`}>form (tab 2)</Link>
+            </li>
+            <li>
+              <Link to={`${routes.about}?with=params`}>about with params</Link>
+            </li>
+          </ul>
+        </div>
 
-export default App;
+        <Switch>
+          <Route path={routes.form} component={Form} />
+          <Route path={routes.about} component={About} />
+          <Redirect to={routes.form} />
+        </Switch>
+      </Router>
+    </div>
+  )
+}
